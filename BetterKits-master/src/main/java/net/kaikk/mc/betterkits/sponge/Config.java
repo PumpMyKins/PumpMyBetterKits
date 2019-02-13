@@ -19,26 +19,9 @@ public class Config {
 	public String starterKitName;
 	
 	public Config(BetterKits instance) throws Exception {
-		//load defaults
-		URL defaultsInJarURL = CommonUtils.class.getResource("config.yml");
-		YAMLConfigurationLoader defaultsLoader = YAMLConfigurationLoader.builder().setURL(defaultsInJarURL).build();
-		ConfigurationNode defaults = defaultsLoader.load();
-
-		//load config & merge defaults
-		ConfigurationNode rootNode = instance.getConfigManager().load();
-		rootNode.mergeValuesFrom(defaults);
-		instance.getConfigManager().save(rootNode);
 		
-		for (String blockType : rootNode.getNode("AllowedChests").getList(TypeToken.of(String.class))) {
-			Optional<BlockType> optType = Sponge.getRegistry().getType(BlockType.class, blockType);
-			if (optType.isPresent()) {
-				allowedChests.add(optType.get());
-			} else {
-				instance.logger().warn("BlockType "+blockType+" is not valid.");
-			}
-		}
+		this.staterKitName = "stater";
 		
-		starterKitName = rootNode.getNode("StarterKit").getString("starter");
 	}
 }
 
